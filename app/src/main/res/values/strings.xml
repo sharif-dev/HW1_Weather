@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Weather4Cast</string>
+    <string name="region_edit_text_hint">Region</string>
 </resources>
