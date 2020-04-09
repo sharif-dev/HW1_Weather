@@ -2,6 +2,7 @@ package com.example.weather4cast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -19,8 +20,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 
 
 public class MainActivity extends AppCompatActivity {
@@ -68,13 +71,19 @@ public class MainActivity extends AppCompatActivity {
                 .replace("{type}", mapboxRequestType)
                 .replace("{your_token}", mapboxToken);
 
+        final Activity thisActivity = this;
+
         final StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
                             JSONObject obj = new JSONObject(response);
-                            obj.get("features");//todo
+                            RegionsListArrayAdapter regionsListArrayAdapter =
+                                    RegionsListArrayAdapter.getNewRegionsListArrayAdapter
+                                            (thisActivity, (JSONArray) obj.get("features"));
+                            ListView regionsList = findViewById(R.id.regionsList);
+                            regionsList.setAdapter(regionsListArrayAdapter);
                         } catch (JSONException e) {
                             Log.e("JsonParseError", "wrong json response from mapbox server");
                         }
@@ -92,6 +101,6 @@ public class MainActivity extends AppCompatActivity {
                 queue.add(stringRequest);
             }
         });
-        searchThread.start();
+        searchThread.run();
     }
 }
