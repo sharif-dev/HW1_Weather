@@ -48,7 +48,7 @@ public class MainActivity extends FragmentActivity {
 
         final EditText searchFilled = findViewById(R.id.searchFilled);
         final ListView regionsList = findViewById(R.id.regionsList);
-        final ProgressBar progressBar = findViewById(R.id.progressBar);
+        final ProgressBar progressBar = findViewById(R.id.search_region_pb);
 
         regionsList.setVisibility(View.INVISIBLE);
         progressBar.setVisibility(View.INVISIBLE);
@@ -67,7 +67,7 @@ public class MainActivity extends FragmentActivity {
 
     private void searchForRegionsWithNewThread(String query) {
         final ListView regionsList = findViewById(R.id.regionsList);
-        final ProgressBar progressBar = findViewById(R.id.progressBar);
+        final ProgressBar progressBar = findViewById(R.id.search_region_pb);
         final TextView searchResult = findViewById(R.id.searchResultTextView);
 
         regionsList.setVisibility(View.INVISIBLE);
