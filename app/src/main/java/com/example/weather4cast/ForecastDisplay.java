@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +28,7 @@ public class ForecastDisplay extends Fragment {
     private static final String LAT = "lat";
     private static final String LON = "lon";
 
+    private Handler handler = new Handler();
     private WeatherResponse ws;
     private DaysRecyclerViewAdapter drva;
 
@@ -53,26 +55,44 @@ public class ForecastDisplay extends Fragment {
         WeatherAPI.getWeatherFromApi(lat, lon, new WeatherAPI.ICallback() {
             @Override
             public void onWeatherResponse(WeatherResponse ws) {
-                drva.setWeatherResponse(ws);
-                progressBar.setVisibility(View.GONE);
-                recyclerView.setVisibility(View.VISIBLE);
+                FileManager.StoreWeatherResponse(ws, requireContext());
+                handler.post(() -> {
+                    drva.setWeatherResponse(ws);
+                    progressBar.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                });
             }
 
             @Override
             public void onWeatherError(VolleyError error) {
-                Log.e("tag",error.toString());
-                Toast.makeText(requireContext(), "Couldn't connect to server", Toast.LENGTH_LONG).show();
+                Log.e("tag", error.toString());
+                handler.post(() -> {
+                    Toast.makeText(requireContext(), "Couldn't connect to server", Toast.LENGTH_LONG).show();
+                });
                 getWsFromFile();
             }
         });
     }
 
     private void getWsFromFile() {
-//        FileManager.getWeatherResponse();
-        if (ws == null) {
-            Toast.makeText(requireContext(), "No offline data was found", Toast.LENGTH_LONG).show();
-            progressBar.setVisibility(View.GONE);
-        }
+        FileManager.getWeatherResponse(requireContext(), new FileManager.IGetWeatherResponseCB() {
+            @Override
+            public void onSuccess(WeatherResponse ws) {
+                handler.post(() -> {
+                    drva.setWeatherResponse(ws);
+                    progressBar.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                });
+            }
+
+            @Override
+            public void onError() {
+                handler.post(() -> {
+                    Toast.makeText(requireContext(), "No offline data was found", Toast.LENGTH_LONG).show();
+                    progressBar.setVisibility(View.GONE);
+                });
+            }
+        });
     }
 
     @BindView(R.id.forcast_frag_pb)
