@@ -16,6 +16,7 @@ import com.example.weather4cast.model.WeatherResponse;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 
 import butterknife.BindView;
@@ -62,6 +63,9 @@ public class DaysRecyclerViewAdapter extends RecyclerView.Adapter<DaysRecyclerVi
         holder.dayOfWeek.setText(dayOfWeek);
 
         holder.verdictText.setText(day.dayDetail.weatherCondition.weatherVerdict);
+
+        holder.ht.setText(new DecimalFormat("#0").format(day.dayDetail.maximumTemp));
+        holder.lt.setText(new DecimalFormat("#0").format(day.dayDetail.minimumTemp));
     }
 
     @Override
@@ -78,6 +82,12 @@ public class DaysRecyclerViewAdapter extends RecyclerView.Adapter<DaysRecyclerVi
 
         @BindView(R.id.verdict_text)
         TextView verdictText;
+
+        @BindView(R.id.ht)
+        TextView ht;
+
+        @BindView(R.id.lt)
+        TextView lt;
 
         public DayViewHolder(@NonNull View itemView) {
             super(itemView);
