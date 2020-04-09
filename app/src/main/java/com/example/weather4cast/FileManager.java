@@ -18,7 +18,7 @@ public class FileManager {
         Gson gson = new Gson();
         StringBuilder stringBuilder = new StringBuilder();
         try {
-            InputStream inputStream = context.openFileInput("config.txt");
+            InputStream inputStream = context.openFileInput("WeatherResponse.txt");
 
             if ( inputStream != null ) {
                 InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
@@ -40,6 +40,7 @@ public class FileManager {
 
         return gson.fromJson(stringBuilder.toString(), WeatherResponse.class);
     }
+
 
     public static void StoreWeatherResponse(WeatherResponse weatherResponse, Context context){
         try {
