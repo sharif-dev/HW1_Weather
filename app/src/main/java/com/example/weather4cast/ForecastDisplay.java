@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +28,7 @@ public class ForecastDisplay extends Fragment {
     private static final String LAT = "lat";
     private static final String LON = "lon";
 
+    private Handler handler = new Handler();
     private WeatherResponse ws;
     private DaysRecyclerViewAdapter drva;
 
@@ -53,15 +55,19 @@ public class ForecastDisplay extends Fragment {
         WeatherAPI.getWeatherFromApi(lat, lon, new WeatherAPI.ICallback() {
             @Override
             public void onWeatherResponse(WeatherResponse ws) {
-                drva.setWeatherResponse(ws);
-                progressBar.setVisibility(View.GONE);
-                recyclerView.setVisibility(View.VISIBLE);
+                handler.post(() -> {
+                    drva.setWeatherResponse(ws);
+                    progressBar.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                });
             }
 
             @Override
             public void onWeatherError(VolleyError error) {
                 Log.e("tag",error.toString());
-                Toast.makeText(requireContext(), "Couldn't connect to server", Toast.LENGTH_LONG).show();
+                handler.post(() -> {
+                    Toast.makeText(requireContext(), "Couldn't connect to server", Toast.LENGTH_LONG).show();
+                });
                 getWsFromFile();
             }
         });
