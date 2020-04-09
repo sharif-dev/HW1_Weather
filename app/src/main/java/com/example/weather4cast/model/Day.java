@@ -11,6 +11,9 @@ public class Day {
         public String verdictIconUrl;
     }
 
+    @SerializedName("date")
+    public String date;
+
     @SerializedName("maxtemp_c")
     public int maximumTemp;
 

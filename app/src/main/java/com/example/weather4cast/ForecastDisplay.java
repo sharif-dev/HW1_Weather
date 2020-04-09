@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.weather4cast.adapters.DaysRecyclerViewAdapter;
 import com.example.weather4cast.model.WeatherResponse;
@@ -38,16 +39,25 @@ public class ForecastDisplay extends Fragment {
         if (getArguments() != null) {
             String cityName = getArguments().getString(CITY_NAME);
             if(cityName==null){
-                ws = FileManager.getWeatherResponse();
-                if(ws == null){
-                    //todo no data was stored
-                }
+                setWsFromFile();
             }else {
-                ws = WeatherAPI.getWeatherFromApi(cityName);
-                if(ws == null){
-                    //todo no internet
-                }
+                setWsFromAPI(cityName);
             }
+        }
+    }
+
+    private void setWsFromAPI(String cityName) {
+        ws = WeatherAPI.getWeatherFromApi(cityName);
+        if(ws == null){
+            Toast.makeText(requireContext(),"Couldn't connect to server",Toast.LENGTH_LONG).show();
+            setWsFromFile();
+        }
+    }
+
+    private void setWsFromFile() {
+        ws = FileManager.getWeatherResponse();
+        if (ws == null) {
+            Toast.makeText(requireContext(), "No offline data was found", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -56,7 +66,7 @@ public class ForecastDisplay extends Fragment {
                              Bundle savedInstanceState) {
         View fragLayout = inflater.inflate(R.layout.fragment_forecast_display, container, false);
         RecyclerView recyclerView = fragLayout.findViewById(R.id.forecast_page_recycler_view);
-        DaysRecyclerViewAdapter adapter = new DaysRecyclerViewAdapter();
+        DaysRecyclerViewAdapter adapter = new DaysRecyclerViewAdapter(ws);
         LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);

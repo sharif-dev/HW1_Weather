@@ -16,8 +16,8 @@ public class WeatherResponse {
     }
 
     @SerializedName("location")
-    LocationC cityNameC;
+    public LocationC cityNameC;
 
     @SerializedName("forecast")
-    ForecastC daysC;
+    public ForecastC daysC;
 }

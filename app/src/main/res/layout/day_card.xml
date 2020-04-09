@@ -9,7 +9,7 @@
         android:layout_height="173dp">
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/verdict_icon"
             android:layout_width="51dp"
             android:layout_height="47dp"
             android:contentDescription="@string/day_card_icon"
@@ -21,17 +21,17 @@
             app:srcCompat="?attr/actionBarDivider" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/verdict_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.521"
-            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintStart_toEndOf="@+id/verdict_icon"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/day_of_week"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"

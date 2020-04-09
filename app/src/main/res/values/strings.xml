@@ -2,4 +2,5 @@
     <string name="app_name">Weather4Cast</string>
     <string name="region_edit_text_hint">Region</string>
     <string name="no_result">No Result</string>
+    <string name="day_card_icon">This is an indicator of weather</string>
 </resources>
