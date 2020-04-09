@@ -98,8 +98,7 @@ public class MainActivity extends FragmentActivity {
 
                             progressBar.setVisibility(View.INVISIBLE);
                             regionsList.setVisibility(View.VISIBLE);
-                        }
-                        else {
+                        } else {
                             progressBar.setVisibility(View.INVISIBLE);
                             searchResult.setVisibility(View.VISIBLE);
                         }
@@ -120,9 +119,10 @@ public class MainActivity extends FragmentActivity {
 
         if (ConnectionChecker.RVConnected(this)) {
             searchThread.start();
-        }else {
+        } else {
             ForecastDisplay forecastDisplay = ForecastDisplay.newOfflineInstance();
-            this.getFragmentManager().beginTransaction().add(R.id.search_activity, forecastDisplay).commit();
+            this.getFragmentManager().beginTransaction().add(R.id.search_activity, forecastDisplay)
+                    .addToBackStack("forecast fragment").commit();
         }
     }
 }

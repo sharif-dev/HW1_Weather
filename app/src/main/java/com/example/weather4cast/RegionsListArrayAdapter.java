@@ -80,10 +80,11 @@ public class RegionsListArrayAdapter extends BaseAdapter {
                     forecastDisplay = ForecastDisplay.newOnlineInstance
                             (regionDataArrayList.get(position).latitude,
                                     regionDataArrayList.get(position).longitude);
-                }else {
+                } else {
                     forecastDisplay = ForecastDisplay.newOfflineInstance();
                 }
-                context.getFragmentManager().beginTransaction().add(R.id.search_activity, forecastDisplay).commit();
+                context.getFragmentManager().beginTransaction().add(R.id.search_activity, forecastDisplay)
+                        .addToBackStack("forecast fragment").commit();
             }
         });
         return convertView;
