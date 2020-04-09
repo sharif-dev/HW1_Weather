@@ -1,92 +1,83 @@
 package com.example.weather4cast;
 
 import android.app.Activity;
+import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
+import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import java.util.ArrayList;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-public class RegionsListArrayAdapter extends ArrayAdapter {
+public class RegionsListArrayAdapter extends BaseAdapter {
     private final Activity context;
-    private final String[] regionArray;
-    private final String[] detailArray;
-    private final double[] latitudeArray;
-    private final double[] longitudeArray;
+    private final ArrayList<RegionData> regionDataArrayList;
 
-    static RegionsListArrayAdapter getNewRegionsListArrayAdapter(Activity context, JSONArray data) {
-        String[] regionArray = new String[data.length()];
-        String[] detailArray = new String[data.length()];
-        double[] latitudeArray = new double[data.length()];
-        double[] longitudeArray = new double[data.length()];
-        for (int i = 0; i < data.length(); i++) {
-            try {
-                JSONObject element = (JSONObject) data.get(i);
-                regionArray[i] = (String) element.get("text");
-                detailArray[i] = (String) element.get("place_name");
-                JSONArray coordinates = (JSONArray)
-                        ((JSONObject) element.get("geometry")).get("coordinates");
-                Log.i("aaaa", regionArray[i] + " " + coordinates.get(1) +" "+ coordinates.get(0));
-                try {
-                    latitudeArray[i] = (double) coordinates.get(1);
-                } catch (Exception e) {
-                    latitudeArray[i] = 0;
-                    latitudeArray[i] += (int) coordinates.get(1);
-                }
-                try {
-                    longitudeArray[i] = (double) coordinates.get(0);
-                } catch (Exception e) {
-                    longitudeArray[i] = 0;
-                    longitudeArray[i] += (int) coordinates.get(0);
-                }
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        return new RegionsListArrayAdapter
-                (context, regionArray, detailArray, latitudeArray, longitudeArray);
-    }
-
-    private RegionsListArrayAdapter(Activity context, String[] regionArray, String[] detailArray,
-             double[] latitudeArray, double[] longitudeArray) {
-        super(context, R.layout.regions_list_row, regionArray);
+    RegionsListArrayAdapter(Activity context, ArrayList<RegionData> regionDataArrayList) {
         this.context = context;
-        this.regionArray = regionArray;
-        this.detailArray = detailArray;
-        this.latitudeArray = latitudeArray;
-        this.longitudeArray = longitudeArray;
+        this.regionDataArrayList = regionDataArrayList;
     }
 
-    @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-//        LayoutInflater inflater=context.getLayoutInflater();
-//        View rowView=inflater.inflate(R.layout.regions_list_row, null,true);
-//
-//        TextView regionName = rowView.findViewById(R.id.regionName);
-//        TextView regionDetails = rowView.findViewById(R.id.regionDetails);
-//
-//        regionName.setText(regionArray[position]);
-//        regionDetails.setText(detailArray[position]);
-//
-//        return rowView;
+    public int getViewTypeCount() {
+        return getCount();
+    }
+    @Override
+    public int getItemViewType(int position) {
+
+        return position;
+    }
+
+    @Override
+    public int getCount() {
+        return regionDataArrayList.size();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return regionDataArrayList.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return 0;
+    }
+
+    @Override
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        ViewHolder holder;
 
         if (convertView == null) {
-            convertView = context.getLayoutInflater().inflate(R.layout.regions_list_row, parent, false);
+            holder = new ViewHolder();
+            LayoutInflater inflater = (LayoutInflater) context
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = inflater.inflate(R.layout.regions_list_row, null, true);
+
+            holder.regionName = convertView.findViewById(R.id.regionName);
+            holder.regionDetails = convertView.findViewById(R.id.regionDetails);
+
+            convertView.setTag(holder);
+        }else {
+            holder = (ViewHolder)convertView.getTag();
         }
 
-        ((TextView) convertView.findViewById(R.id.regionName)).setText(regionArray[position]);
-        ((TextView) convertView.findViewById(R.id.regionDetails)).setText(detailArray[position]);
+        holder.regionName.setText(regionDataArrayList.get(position).name);
+        holder.regionDetails.setText(regionDataArrayList.get(position).details);
+
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("Details", regionDataArrayList.get(position).name +
+                        " " + regionDataArrayList.get(position).latitude +
+                        " " + regionDataArrayList.get(position).longitude);
+            }
+        });
         return convertView;
+    }
+
+    private class ViewHolder {
+        TextView regionName, regionDetails;
     }
 }
