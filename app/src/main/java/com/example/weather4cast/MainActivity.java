@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -24,6 +25,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -43,14 +45,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search);
 
         final EditText searchFilled = findViewById(R.id.searchFilled);
-        ListView regionsList = findViewById(R.id.regionsList);
-        ProgressBar progressBar = findViewById(R.id.progressBar);
-        TextView searchResult = findViewById(R.id.searchResultTextView);
+        final ListView regionsList = findViewById(R.id.regionsList);
+        final ProgressBar progressBar = findViewById(R.id.progressBar);
 
         regionsList.setVisibility(View.INVISIBLE);
         progressBar.setVisibility(View.INVISIBLE);
-        searchResult.setVisibility(View.INVISIBLE);
-
 
         searchFilled.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -65,6 +64,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void searchForRegionsWithNewThread(String query) {
+        final ListView regionsList = findViewById(R.id.regionsList);
+        final ProgressBar progressBar = findViewById(R.id.progressBar);
+        final TextView searchResult = findViewById(R.id.searchResultTextView);
+
+        regionsList.setVisibility(View.INVISIBLE);
+        searchResult.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
+
         final RequestQueue queue = Volley.newRequestQueue(this);
 
         String url = mapboxSearchURL.replace("{query}", query)
@@ -77,15 +84,19 @@ public class MainActivity extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        try {
-                            JSONObject obj = new JSONObject(response);
-                            RegionsListArrayAdapter regionsListArrayAdapter =
-                                    RegionsListArrayAdapter.getNewRegionsListArrayAdapter
-                                            (thisActivity, (JSONArray) obj.get("features"));
-                            ListView regionsList = findViewById(R.id.regionsList);
+
+                        ArrayList<RegionData> regionDataList = RegionData.getDataArray(response);
+                        if (regionDataList.size() > 0) {
+                            RegionsListArrayAdapter regionsListArrayAdapter = new RegionsListArrayAdapter
+                                    (thisActivity, regionDataList);
                             regionsList.setAdapter(regionsListArrayAdapter);
-                        } catch (JSONException e) {
-                            Log.e("JsonParseError", "wrong json response from mapbox server");
+
+                            progressBar.setVisibility(View.INVISIBLE);
+                            regionsList.setVisibility(View.VISIBLE);
+                        }
+                        else {
+                            progressBar.setVisibility(View.INVISIBLE);
+                            searchResult.setVisibility(View.VISIBLE);
                         }
                     }
                 }, new Response.ErrorListener() {
