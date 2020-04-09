@@ -1,6 +1,7 @@
 package com.example.weather4cast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -28,7 +29,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends FragmentActivity {
     private final String mapboxSearchURL = "https://api.mapbox.com/geocoding/v5/mapbox.places/{query}.json?types={type}&access_token={your_token}";
     private final String mapboxRequestType = "region";
     private final String mapboxToken = "pk.eyJ1IjoiYWxpajEiLCJhIjoiY2s4cjVjOG9vMDN5bTNrbG8xaHo4endkbyJ9.fl5D9Sne8JUjEqA_mN3geQ";
