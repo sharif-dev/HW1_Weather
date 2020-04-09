@@ -1,5 +1,6 @@
 package com.example.weather4cast.adapters;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +35,7 @@ public class DaysRecyclerViewAdapter extends RecyclerView.Adapter<DaysRecyclerVi
         Log.e("tag", gson.toJson(ws));
         this.ws = ws;
         notifyDataSetChanged();
+
     }
 
     @NonNull

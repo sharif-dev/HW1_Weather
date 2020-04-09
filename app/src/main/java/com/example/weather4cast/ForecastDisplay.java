@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
@@ -59,7 +60,9 @@ public class ForecastDisplay extends Fragment {
                 handler.post(() -> {
                     drva.setWeatherResponse(ws);
                     progressBar.setVisibility(View.GONE);
+                    cityNameTextView.setText(ws.cityNameC.cityName);
                     recyclerView.setVisibility(View.VISIBLE);
+                    cityNameTextView.setVisibility(View.VISIBLE);
                 });
             }
 
@@ -81,7 +84,9 @@ public class ForecastDisplay extends Fragment {
                 handler.post(() -> {
                     drva.setWeatherResponse(ws);
                     progressBar.setVisibility(View.GONE);
+                    cityNameTextView.setText(ws.cityNameC.cityName);
                     recyclerView.setVisibility(View.VISIBLE);
+                    cityNameTextView.setVisibility(View.VISIBLE);
                 });
             }
 
@@ -99,6 +104,8 @@ public class ForecastDisplay extends Fragment {
     ProgressBar progressBar;
     @BindView(R.id.forecast_page_recycler_view)
     RecyclerView recyclerView;
+    @BindView(R.id.forecast_city_name)
+    TextView cityNameTextView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -106,6 +113,7 @@ public class ForecastDisplay extends Fragment {
         View fragLayout = inflater.inflate(R.layout.fragment_forecast_display, container, false);
         ButterKnife.bind(this, fragLayout);
         recyclerView.setVisibility(View.GONE);
+        cityNameTextView.setVisibility(View.GONE);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
