@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.example.weather4cast.networking.ConnectionChecker;
+
 import java.util.ArrayList;
 
 public class RegionsListArrayAdapter extends BaseAdapter {
@@ -24,6 +26,7 @@ public class RegionsListArrayAdapter extends BaseAdapter {
     public int getViewTypeCount() {
         return getCount();
     }
+
     @Override
     public int getItemViewType(int position) {
 
@@ -59,8 +62,8 @@ public class RegionsListArrayAdapter extends BaseAdapter {
             holder.regionDetails = convertView.findViewById(R.id.regionDetails);
 
             convertView.setTag(holder);
-        }else {
-            holder = (ViewHolder)convertView.getTag();
+        } else {
+            holder = (ViewHolder) convertView.getTag();
         }
 
         holder.regionName.setText(regionDataArrayList.get(position).name);
@@ -72,6 +75,15 @@ public class RegionsListArrayAdapter extends BaseAdapter {
                 Log.i("Details", regionDataArrayList.get(position).name +
                         " " + regionDataArrayList.get(position).latitude +
                         " " + regionDataArrayList.get(position).longitude);
+                ForecastDisplay forecastDisplay;
+                if (ConnectionChecker.RVConnected(context)) {
+                    forecastDisplay = ForecastDisplay.newOnlineInstance
+                            (regionDataArrayList.get(position).latitude,
+                                    regionDataArrayList.get(position).longitude);
+                }else {
+                    forecastDisplay = ForecastDisplay.newOfflineInstance();
+                }
+                context.getFragmentManager().beginTransaction().add(R.id.search_activity, forecastDisplay).commit();
             }
         });
         return convertView;

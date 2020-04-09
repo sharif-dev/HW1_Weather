@@ -1,9 +1,9 @@
 package com.example.weather4cast;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -32,7 +32,7 @@ public class ForecastDisplay extends Fragment {
     private WeatherResponse ws;
     private DaysRecyclerViewAdapter drva;
 
-    public static ForecastDisplay newOnlineInstance(String lat, String lon, boolean offline) {
+    public static ForecastDisplay newOnlineInstance(String lat, String lon) {
         ForecastDisplay fragment = new ForecastDisplay();
 
         Bundle args = new Bundle();
@@ -55,7 +55,7 @@ public class ForecastDisplay extends Fragment {
         WeatherAPI.getWeatherFromApi(lat, lon, new WeatherAPI.ICallback() {
             @Override
             public void onWeatherResponse(WeatherResponse ws) {
-                FileManager.StoreWeatherResponse(ws, requireContext());
+                FileManager.StoreWeatherResponse(ws, getActivity());
                 handler.post(() -> {
                     drva.setWeatherResponse(ws);
                     progressBar.setVisibility(View.GONE);
@@ -67,7 +67,7 @@ public class ForecastDisplay extends Fragment {
             public void onWeatherError(VolleyError error) {
                 Log.e("tag", error.toString());
                 handler.post(() -> {
-                    Toast.makeText(requireContext(), "Couldn't connect to server", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), "Couldn't connect to server", Toast.LENGTH_LONG).show();
                 });
                 getWsFromFile();
             }
@@ -75,7 +75,7 @@ public class ForecastDisplay extends Fragment {
     }
 
     private void getWsFromFile() {
-        FileManager.getWeatherResponse(requireContext(), new FileManager.IGetWeatherResponseCB() {
+        FileManager.getWeatherResponse(getActivity(), new FileManager.IGetWeatherResponseCB() {
             @Override
             public void onSuccess(WeatherResponse ws) {
                 handler.post(() -> {
@@ -88,7 +88,7 @@ public class ForecastDisplay extends Fragment {
             @Override
             public void onError() {
                 handler.post(() -> {
-                    Toast.makeText(requireContext(), "No offline data was found", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), "No offline data was found", Toast.LENGTH_LONG).show();
                     progressBar.setVisibility(View.GONE);
                 });
             }
@@ -107,7 +107,7 @@ public class ForecastDisplay extends Fragment {
         ButterKnife.bind(this, fragLayout);
         recyclerView.setVisibility(View.GONE);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         drva = new DaysRecyclerViewAdapter(ws);
         recyclerView.setAdapter(drva);
