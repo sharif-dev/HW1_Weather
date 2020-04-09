@@ -26,6 +26,11 @@ public class DaysRecyclerViewAdapter extends RecyclerView.Adapter<DaysRecyclerVi
         this.ws = ws;
     }
 
+    public void setWeatherResponse(WeatherResponse ws) {
+        this.ws = ws;
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public DayViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -55,7 +60,7 @@ public class DaysRecyclerViewAdapter extends RecyclerView.Adapter<DaysRecyclerVi
 
     @Override
     public int getItemCount() {
-        return ws.daysC.days.size();
+        return ws != null ? ws.daysC.days.size() : 0;
     }
 
     public static class DayViewHolder extends RecyclerView.ViewHolder {

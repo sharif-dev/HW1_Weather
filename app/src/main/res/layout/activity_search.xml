@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <ProgressBar
-        android:id="@+id/progressBar"
+        android:id="@+id/forcast_frag_pb"
         style="?android:attr/progressBarStyle"
         android:layout_width="103dp"
         android:layout_height="113dp"
