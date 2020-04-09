@@ -1,8 +1,5 @@
 <resources>
     <string name="app_name">Weather4Cast</string>
     <string name="region_edit_text_hint">Region</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="day_card_icon">weather_icon</string>
+    <string name="no_result">No Result</string>
 </resources>
