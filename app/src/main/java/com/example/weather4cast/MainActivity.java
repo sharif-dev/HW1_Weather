@@ -20,6 +20,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.weather4cast.networking.ConnectionChecker;
 import com.example.weather4cast.networking.VSReqQ;
 import com.squareup.picasso.Picasso;
 
@@ -116,6 +117,12 @@ public class MainActivity extends FragmentActivity {
                 queue.add(stringRequest);
             }
         });
-        searchThread.start();
+
+        if (ConnectionChecker.RVConnected(this)) {
+            searchThread.start();
+        }else {
+            ForecastDisplay forecastDisplay = ForecastDisplay.newOfflineInstance();
+            this.getFragmentManager().beginTransaction().add(R.id.search_activity, forecastDisplay).commit();
+        }
     }
 }
