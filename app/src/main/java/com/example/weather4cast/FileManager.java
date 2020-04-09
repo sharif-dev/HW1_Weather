@@ -23,9 +23,8 @@ public class FileManager {
         new Thread(() -> {
             Gson gson = new Gson();
             StringBuilder stringBuilder = new StringBuilder();
-            try {
-                InputStream inputStream = context.openFileInput("WeatherResponse.txt");
 
+            try(InputStream inputStream = context.openFileInput("WeatherResponse.txt");) {
                 if ( inputStream != null ) {
                     InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
                     BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
@@ -34,16 +33,16 @@ public class FileManager {
                     while ( (receiveString = bufferedReader.readLine()) != null ) {
                         stringBuilder.append("\n").append(receiveString);
                     }
-
-                    inputStream.close();
                 }
             }
             catch (FileNotFoundException e) {
                 Log.e("tag", "File not found: " + e.toString());
                 callback.onError();
+                return;
             } catch (IOException e) {
                 Log.e("tag", "Can not read file: " + e.toString());
                 callback.onError();
+                return;
             }
 
             callback.onSuccess(gson.fromJson(stringBuilder.toString(), WeatherResponse.class));

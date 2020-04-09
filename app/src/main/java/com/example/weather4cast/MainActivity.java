@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -120,6 +121,7 @@ public class MainActivity extends FragmentActivity {
         if (ConnectionChecker.RVConnected(this)) {
             searchThread.start();
         } else {
+            Toast.makeText(this, "Couldn't connect to server", Toast.LENGTH_LONG).show();
             ForecastDisplay forecastDisplay = ForecastDisplay.newOfflineInstance();
             this.getFragmentManager().beginTransaction().add(R.id.search_activity, forecastDisplay)
                     .addToBackStack("forecast fragment").commit();
