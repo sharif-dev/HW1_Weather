@@ -47,7 +47,7 @@ public class DaysRecyclerViewAdapter extends RecyclerView.Adapter<DaysRecyclerVi
         Day day = ws.daysC.days.get(position);
 
         Picasso.get().setLoggingEnabled(true);
-        Picasso.get().load(day.dayDetail.weatherCondition.verdictIconUrl.substring(2)).into(holder.verdictIcon);
+        Picasso.get().load("https://" + day.dayDetail.weatherCondition.verdictIconUrl.substring(2)).into(holder.verdictIcon);
 //        Log.e("tag", holder.verdictIcon);
 
         SimpleDateFormat format1 = new SimpleDateFormat("yyyy-mm-dd");

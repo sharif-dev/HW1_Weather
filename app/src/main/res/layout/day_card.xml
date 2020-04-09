@@ -2,24 +2,30 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content" android:layout_height="wrap_content">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="5dp"
+    android:layout_marginVertical="5dp"
+    android:foregroundGravity="center"
+    app:cardCornerRadius="4dp"
+    app:cardElevation="4dp"
+    app:contentPadding="4dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="392dp"
-        android:layout_height="173dp"
-        android:foregroundGravity="center">
+        android:layout_height="173dp">
 
         <ImageView
             android:id="@+id/verdict_icon"
-            android:layout_width="51dp"
-            android:layout_height="47dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:contentDescription="@string/day_card_icon"
+            android:src="@android:drawable/presence_online"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.161"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="?attr/actionBarDivider" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/verdict_text"
@@ -27,7 +33,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.521"
+            app:layout_constraintHorizontal_bias="0.161"
             app:layout_constraintStart_toEndOf="@+id/verdict_icon"
             app:layout_constraintTop_toTopOf="parent" />
 
