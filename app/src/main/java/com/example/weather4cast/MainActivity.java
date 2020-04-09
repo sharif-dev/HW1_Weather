@@ -113,6 +113,6 @@ public class MainActivity extends AppCompatActivity {
                 queue.add(stringRequest);
             }
         });
-        searchThread.run();
+        searchThread.start();
     }
 }
