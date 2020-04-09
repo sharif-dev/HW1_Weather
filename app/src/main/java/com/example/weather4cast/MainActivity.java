@@ -1,11 +1,9 @@
 package com.example.weather4cast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentActivity;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -25,14 +23,10 @@ import com.example.weather4cast.networking.ConnectionChecker;
 import com.example.weather4cast.networking.VSReqQ;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends AppCompatActivity {
     private final String mapboxSearchURL = "https://api.mapbox.com/geocoding/v5/mapbox.places/{query}.json?types={type}&access_token={your_token}";
     private final String mapboxRequestType = "region";
     private final String mapboxToken = "pk.eyJ1IjoiYWxpajEiLCJhIjoiY2s4cjVjOG9vMDN5bTNrbG8xaHo4endkbyJ9.fl5D9Sne8JUjEqA_mN3geQ";
@@ -84,7 +78,7 @@ public class MainActivity extends FragmentActivity {
                 .replace("{type}", mapboxRequestType)
                 .replace("{your_token}", mapboxToken);
 
-        final Activity thisActivity = this;
+        final AppCompatActivity thisActivity = this;
 
         final StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
@@ -123,7 +117,7 @@ public class MainActivity extends FragmentActivity {
         } else {
             Toast.makeText(this, "Couldn't connect to server", Toast.LENGTH_LONG).show();
             ForecastDisplay forecastDisplay = ForecastDisplay.newOfflineInstance();
-            this.getFragmentManager().beginTransaction().add(R.id.search_activity, forecastDisplay)
+            this.getSupportFragmentManager().beginTransaction().add(R.id.search_activity, forecastDisplay)
                     .addToBackStack("forecast fragment").commit();
         }
     }

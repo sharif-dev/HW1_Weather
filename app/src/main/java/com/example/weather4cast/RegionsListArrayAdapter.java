@@ -9,15 +9,17 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.weather4cast.networking.ConnectionChecker;
 
 import java.util.ArrayList;
 
 public class RegionsListArrayAdapter extends BaseAdapter {
-    private final Activity context;
+    private final AppCompatActivity context;
     private final ArrayList<RegionData> regionDataArrayList;
 
-    RegionsListArrayAdapter(Activity context, ArrayList<RegionData> regionDataArrayList) {
+    RegionsListArrayAdapter(AppCompatActivity context, ArrayList<RegionData> regionDataArrayList) {
         this.context = context;
         this.regionDataArrayList = regionDataArrayList;
     }
@@ -83,7 +85,7 @@ public class RegionsListArrayAdapter extends BaseAdapter {
                 } else {
                     forecastDisplay = ForecastDisplay.newOfflineInstance();
                 }
-                context.getFragmentManager().beginTransaction().add(R.id.search_activity, forecastDisplay)
+                context.getSupportFragmentManager().beginTransaction().add(R.id.search_activity, forecastDisplay)
                         .addToBackStack("forecast fragment").commit();
             }
         });

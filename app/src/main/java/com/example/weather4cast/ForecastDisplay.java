@@ -1,9 +1,8 @@
 package com.example.weather4cast;
 
-import android.app.Fragment;
-import android.content.Context;
 import android.os.Bundle;
 
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
