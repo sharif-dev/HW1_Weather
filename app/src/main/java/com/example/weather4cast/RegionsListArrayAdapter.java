@@ -72,7 +72,7 @@ public class RegionsListArrayAdapter extends BaseAdapter {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("Details", regionDataArrayList.get(position).name +
+                Log.i("tag", regionDataArrayList.get(position).name +
                         " " + regionDataArrayList.get(position).latitude +
                         " " + regionDataArrayList.get(position).longitude);
                 ForecastDisplay forecastDisplay;

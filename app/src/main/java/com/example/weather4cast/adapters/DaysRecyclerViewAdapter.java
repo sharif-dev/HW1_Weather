@@ -1,5 +1,6 @@
 package com.example.weather4cast.adapters;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.weather4cast.R;
 import com.example.weather4cast.model.Day;
 import com.example.weather4cast.model.WeatherResponse;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -27,6 +29,8 @@ public class DaysRecyclerViewAdapter extends RecyclerView.Adapter<DaysRecyclerVi
     }
 
     public void setWeatherResponse(WeatherResponse ws) {
+        Gson gson = new Gson();
+        Log.e("tag", gson.toJson(ws));
         this.ws = ws;
         notifyDataSetChanged();
     }
@@ -42,7 +46,9 @@ public class DaysRecyclerViewAdapter extends RecyclerView.Adapter<DaysRecyclerVi
     public void onBindViewHolder(@NonNull DayViewHolder holder, int position) {
         Day day = ws.daysC.days.get(position);
 
-        Picasso.get().load(day.weatherCondition.verdictIconUrl).into(holder.verdictIcon);
+        Picasso.get().setLoggingEnabled(true);
+        Picasso.get().load(day.dayDetail.weatherCondition.verdictIconUrl.substring(2)).into(holder.verdictIcon);
+//        Log.e("tag", holder.verdictIcon);
 
         SimpleDateFormat format1 = new SimpleDateFormat("yyyy-mm-dd");
         SimpleDateFormat format2 = new SimpleDateFormat("EEEE");
@@ -55,7 +61,7 @@ public class DaysRecyclerViewAdapter extends RecyclerView.Adapter<DaysRecyclerVi
         }
         holder.dayOfWeek.setText(dayOfWeek);
 
-        holder.verdictText.setText(day.weatherCondition.weatherVerdict);
+        holder.verdictText.setText(day.dayDetail.weatherCondition.weatherVerdict);
     }
 
     @Override

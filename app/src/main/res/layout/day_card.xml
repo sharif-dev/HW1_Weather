@@ -6,7 +6,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="392dp"
-        android:layout_height="173dp">
+        android:layout_height="173dp"
+        android:foregroundGravity="center">
 
         <ImageView
             android:id="@+id/verdict_icon"
@@ -34,6 +35,8 @@
             android:id="@+id/day_of_week"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="#FF5722"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

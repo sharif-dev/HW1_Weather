@@ -11,24 +11,30 @@ public class Day {
         public String verdictIconUrl;
     }
 
+    public static class DayDetail{
+        @SerializedName("maxtemp_c")
+        public double maximumTemp;
+
+        @SerializedName("mintemp_c")
+        public double minimumTemp;
+
+        @SerializedName("avgtemp_c")
+        public double averageTemp;
+
+        @SerializedName("maxwind_kpg")
+        public double maxWindSpeed;
+
+        @SerializedName("avghumidity")
+        public double averageHumidity;
+
+        @SerializedName("condition")
+        public WeatherCondition weatherCondition;
+    }
+
     @SerializedName("date")
     public String date;
 
-    @SerializedName("maxtemp_c")
-    public int maximumTemp;
+    @SerializedName("day")
+    public DayDetail dayDetail;
 
-    @SerializedName("mintemp_c")
-    public int minimumTemp;
-
-    @SerializedName("avgtemp_c")
-    public int averageTemp;
-
-    @SerializedName("maxwind_kpg")
-    public int maxWindSpeed;
-
-    @SerializedName("avghumidity")
-    public int averageHumidity;
-
-    @SerializedName("condition")
-    public WeatherCondition weatherCondition;
 }

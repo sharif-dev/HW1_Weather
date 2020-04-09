@@ -39,10 +39,10 @@ public class FileManager {
                 }
             }
             catch (FileNotFoundException e) {
-                Log.e("login activity", "File not found: " + e.toString());
+                Log.e("tag", "File not found: " + e.toString());
                 callback.onError();
             } catch (IOException e) {
-                Log.e("login activity", "Can not read file: " + e.toString());
+                Log.e("tag", "Can not read file: " + e.toString());
                 callback.onError();
             }
 

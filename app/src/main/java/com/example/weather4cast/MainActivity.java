@@ -21,6 +21,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.weather4cast.networking.VSReqQ;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,6 +40,7 @@ public class MainActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Picasso.get().setLoggingEnabled(true);
         VSReqQ.initialize(getApplicationContext());
         initializeSearchActivity();
     }
@@ -104,7 +106,7 @@ public class MainActivity extends FragmentActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("RequestFailed", "mapbox request failed");
+                Log.e("tag", "mapbox request failed");
             }
         });
 

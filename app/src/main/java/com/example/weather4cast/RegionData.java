@@ -19,7 +19,7 @@ public class RegionData {
                 dataArray.add(new RegionData(data.getJSONObject(i)));
             }
         } catch (JSONException e) {
-            Log.e("JsonParseError", "wrong json response from mapbox server");
+            Log.e("tag", "wrong json response from mapbox server");
         }
         return dataArray;
     }
@@ -33,7 +33,7 @@ public class RegionData {
             latitude = coordinates.get(1).toString();
             longitude = coordinates.get(0).toString();
         } catch (JSONException e) {
-            Log.e("JsonParseError", "wrong json response from mapbox server");
+            Log.e("tag", "wrong json response from mapbox server");
         }
     }
 }

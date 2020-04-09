@@ -1,5 +1,7 @@
 package com.example.weather4cast.networking;
 
+import android.util.Log;
+
 import com.android.volley.VolleyError;
 import com.example.weather4cast.model.WeatherResponse;
 
@@ -11,7 +13,7 @@ public class WeatherAPI {
     }
 
     private static String urlTemplate =
-            "http://api.weatherapi.com/v1/forecast.json?q=%s,%s51.67917&key=401aacef9f19431795c94313200804&days=7";
+            "https://api.weatherapi.com/v1/forecast.json?q=%s,%s&key=401aacef9f19431795c94313200804&days=7";
 
     public static void getWeatherFromApi(String lat, String lon, ICallback callback) {
         new Thread(() -> {
